@@ -104,12 +104,12 @@ export PKG_CONFIG_PATH="%{tde_prefix}/%{_lib}/pkgconfig"
 %{tde_prefix}/%{_lib}/libgwenviewcore.so.1.0.0
 %{tde_prefix}/%{_lib}/libtdeinit_gwenview.la
 %{tde_prefix}/%{_lib}/libtdeinit_gwenview.so
-%{tde_prefix}/%{_lib}/gwenview.la
-%{tde_prefix}/%{_lib}/gwenview.so
-%{tde_prefix}/%{_lib}/libgvdirpart.la
-%{tde_prefix}/%{_lib}/libgvdirpart.so
-%{tde_prefix}/%{_lib}/libgvimagepart.la
-%{tde_prefix}/%{_lib}/libgvimagepart.so
+%{tde_prefix}/%{_lib}/trinity/gwenview.la
+%{tde_prefix}/%{_lib}/trinity/gwenview.so
+%{tde_prefix}/%{_lib}/trinity/libgvdirpart.la
+%{tde_prefix}/%{_lib}/trinity/libgvdirpart.so
+%{tde_prefix}/%{_lib}/trinity/libgvimagepart.la
+%{tde_prefix}/%{_lib}/trinity/libgvimagepart.so
 %{tde_prefix}/share/applications/tde/gwenview.desktop
 %{tde_prefix}/share/apps/gwenview/
 %dir %{tde_prefix}/share/apps/gvdirpart
