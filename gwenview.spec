@@ -9,17 +9,7 @@
 
 %define tde_pkg gwenview
 %define tde_prefix /opt/trinity
-%define tde_appdir %{tde_datadir}/applications
-%define tde_bindir %{tde_prefix}/bin
-%define tde_datadir %{tde_prefix}/share
-%define tde_docdir %{tde_datadir}/doc
-%define tde_includedir %{tde_prefix}/include
-%define tde_libdir %{tde_prefix}/%{_lib}
-%define tde_mandir %{tde_datadir}/man
-%define tde_tdeappdir %{tde_datadir}/applications/tde
-%define tde_tdedocdir %{tde_docdir}/tde
-%define tde_tdeincludedir %{tde_includedir}/tde
-%define tde_tdelibdir %{tde_libdir}/trinity
+
 
 %undefine __brp_remove_la_files
 %define dont_remove_libtool_files 1
@@ -41,24 +31,17 @@ URL:			http://www.trinitydesktop.org/
 
 License:	GPLv2+
 
-#Vendor:		Trinity Desktop
-#Packager:	Francois Andriot <francois.andriot@free.fr>
 
 Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{tde_version}/main/applications/graphics/%{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}.tar.xz
 
 BuildSystem:	  cmake
+
 BuildOption:    -DCMAKE_BUILD_TYPE="RelWithDebInfo"
-BuildOption:    -DCMAKE_SKIP_RPATH=OFF
-BuildOption:    -DCMAKE_SKIP_INSTALL_RPATH=OFF
-BuildOption:    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
-BuildOption:    -DCMAKE_INSTALL_RPATH="%{tde_libdir}"
-BuildOption:    -DCMAKE_NO_BUILTIN_CHRPATH=ON
-BuildOption:    -DBIN_INSTALL_DIR=%{tde_bindir}
-BuildOption:    -DCONFIG_INSTALL_DIR="%{tde_confdir}"
-BuildOption:    -DINCLUDE_INSTALL_DIR=%{tde_tdeincludedir}
-BuildOption:    -DLIB_INSTALL_DIR=%{tde_libdir}
-BuildOption:    -DSHARE_INSTALL_PREFIX=%{tde_datadir}
+BuildOption:    -DCMAKE_INSTALL_PREFIX=%{tde_prefix}
+BuildOption:    -DINCLUDE_INSTALL_DIR=%{tde_prefix}/include/tde
+BuildOption:    -DSHARE_INSTALL_PREFIX=%{tde_prefix}/share
 BuildOption:    -DWITH_ALL_OPTIONS=ON -DBUILD_ALL=ON
+BuildOption:    -DWITH_GCC_VISIBILITY=%{!?with_clang:ON}%{?with_clang:OFF}
 
 BuildRequires:	trinity-tdelibs-devel >= %{tde_version}
 BuildRequires:	trinity-tdebase-devel >= %{tde_version}
@@ -100,60 +83,60 @@ KIPI image framework.
 
 %conf -p
 unset QTDIR QTINC QTLIB
-export PATH="%{tde_bindir}:${PATH}"
-export PKG_CONFIG_PATH="%{tde_libdir}/pkgconfig"
+export PATH="%{tde_prefix}/bin:${PATH}"
+export PKG_CONFIG_PATH="%{tde_prefix}/%{_lib}/pkgconfig"
 
 
 %install -a
 # Removes useless files (-devel ?)
-%__rm -f %{?buildroot}%{tde_libdir}/libgwenviewcore.so
+%__rm -f %{?buildroot}%{tde_prefix}/%{_lib}/libgwenviewcore.so
 
 # Remove unwanted files
-%__rm -rf "%{?buildroot}%{tde_datadir}/pixmaps"
+%__rm -rf "%{?buildroot}%{tde_prefix}/share/pixmaps"
 
 
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING
-%{tde_bindir}/gwenview
-%{tde_libdir}/libgwenviewcore.la
-%{tde_libdir}/libgwenviewcore.so.1
-%{tde_libdir}/libgwenviewcore.so.1.0.0
-%{tde_libdir}/libtdeinit_gwenview.la
-%{tde_libdir}/libtdeinit_gwenview.so
-%{tde_tdelibdir}/gwenview.la
-%{tde_tdelibdir}/gwenview.so
-%{tde_tdelibdir}/libgvdirpart.la
-%{tde_tdelibdir}/libgvdirpart.so
-%{tde_tdelibdir}/libgvimagepart.la
-%{tde_tdelibdir}/libgvimagepart.so
-%{tde_tdeappdir}/gwenview.desktop
-%{tde_datadir}/apps/gwenview/
-%dir %{tde_datadir}/apps/gvdirpart
-%{tde_datadir}/apps/gvdirpart/gvdirpart.rc
-%dir %{tde_datadir}/apps/gvimagepart
-%{tde_datadir}/apps/gvimagepart/gvimagepart.rc
-%{tde_datadir}/apps/gvimagepart/gvimagepartpopup.rc
-%{tde_datadir}/apps/tdeconf_update/gwenview_1.4_osdformat.sh
-%{tde_datadir}/apps/tdeconf_update/gwenview_1.4_osdformat.upd
-%{tde_datadir}/apps/tdeconf_update/gwenview_thumbnail_size.sh
-%{tde_datadir}/apps/tdeconf_update/gwenview_thumbnail_size.upd
-%{tde_datadir}/apps/konqueror/servicemenus/konqgwenview.desktop
-%{tde_datadir}/config.kcfg/fileoperationconfig.kcfg
-%{tde_datadir}/config.kcfg/fileviewconfig.kcfg
-%{tde_datadir}/config.kcfg/fullscreenconfig.kcfg
-%{tde_datadir}/config.kcfg/gvdirpartconfig.kcfg
-%{tde_datadir}/config.kcfg/imageviewconfig.kcfg
-%{tde_datadir}/config.kcfg/miscconfig.kcfg
-%{tde_datadir}/config.kcfg/slideshowconfig.kcfg
-%{tde_datadir}/icons/crystalsvg/*/apps/gvdirpart.png
-%{tde_datadir}/icons/crystalsvg/scalable/apps/gvdirpart.svg
-%{tde_datadir}/icons/hicolor/*/apps/gwenview.png
-%{tde_datadir}/icons/hicolor/*/apps/gvdirpart.png
-%{tde_datadir}/icons/hicolor/scalable/apps/gvdirpart.svg
-%{tde_datadir}/icons/hicolor/scalable/apps/gwenview.svgz
-%{tde_datadir}/man/man1/gwenview.1*
-%{tde_datadir}/services/gvdirpart.desktop
-%{tde_datadir}/services/gvimagepart.desktop
-%lang(en) %{tde_tdedocdir}/HTML/en/gwenview/
+%{tde_prefix}/bin/gwenview
+%{tde_prefix}/%{_lib}/libgwenviewcore.la
+%{tde_prefix}/%{_lib}/libgwenviewcore.so.1
+%{tde_prefix}/%{_lib}/libgwenviewcore.so.1.0.0
+%{tde_prefix}/%{_lib}/libtdeinit_gwenview.la
+%{tde_prefix}/%{_lib}/libtdeinit_gwenview.so
+%{tde_prefix}/%{_lib}/gwenview.la
+%{tde_prefix}/%{_lib}/gwenview.so
+%{tde_prefix}/%{_lib}/libgvdirpart.la
+%{tde_prefix}/%{_lib}/libgvdirpart.so
+%{tde_prefix}/%{_lib}/libgvimagepart.la
+%{tde_prefix}/%{_lib}/libgvimagepart.so
+%{tde_prefix}/share/applications/tde/gwenview.desktop
+%{tde_prefix}/share/apps/gwenview/
+%dir %{tde_prefix}/share/apps/gvdirpart
+%{tde_prefix}/share/apps/gvdirpart/gvdirpart.rc
+%dir %{tde_prefix}/share/apps/gvimagepart
+%{tde_prefix}/share/apps/gvimagepart/gvimagepart.rc
+%{tde_prefix}/share/apps/gvimagepart/gvimagepartpopup.rc
+%{tde_prefix}/share/apps/tdeconf_update/gwenview_1.4_osdformat.sh
+%{tde_prefix}/share/apps/tdeconf_update/gwenview_1.4_osdformat.upd
+%{tde_prefix}/share/apps/tdeconf_update/gwenview_thumbnail_size.sh
+%{tde_prefix}/share/apps/tdeconf_update/gwenview_thumbnail_size.upd
+%{tde_prefix}/share/apps/konqueror/servicemenus/konqgwenview.desktop
+%{tde_prefix}/share/config.kcfg/fileoperationconfig.kcfg
+%{tde_prefix}/share/config.kcfg/fileviewconfig.kcfg
+%{tde_prefix}/share/config.kcfg/fullscreenconfig.kcfg
+%{tde_prefix}/share/config.kcfg/gvdirpartconfig.kcfg
+%{tde_prefix}/share/config.kcfg/imageviewconfig.kcfg
+%{tde_prefix}/share/config.kcfg/miscconfig.kcfg
+%{tde_prefix}/share/config.kcfg/slideshowconfig.kcfg
+%{tde_prefix}/share/icons/crystalsvg/*/apps/gvdirpart.png
+%{tde_prefix}/share/icons/crystalsvg/scalable/apps/gvdirpart.svg
+%{tde_prefix}/share/icons/hicolor/*/apps/gwenview.png
+%{tde_prefix}/share/icons/hicolor/*/apps/gvdirpart.png
+%{tde_prefix}/share/icons/hicolor/scalable/apps/gvdirpart.svg
+%{tde_prefix}/share/icons/hicolor/scalable/apps/gwenview.svgz
+%{tde_prefix}/share/man/man1/gwenview.1*
+%{tde_prefix}/share/services/gvdirpart.desktop
+%{tde_prefix}/share/services/gvimagepart.desktop
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/gwenview/
 
