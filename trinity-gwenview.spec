@@ -43,6 +43,7 @@ BuildOption:    -DWITH_GCC_VISIBILITY=%{!?with_clang:ON}%{?with_clang:OFF}
 BuildRequires:	trinity-tdelibs-devel >= %{tde_version}
 BuildRequires:	trinity-tdebase-devel >= %{tde_version}
 BuildRequires:	trinity-%{_lib}kipi-devel
+BuildRequires:  trinity-tde-cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:	gettext
 
